@@ -32,6 +32,6 @@
         </table>
     </div>
     <div style="margin-top:14px">{{ $notifications->links() }}</div>
-    <p class="auth-note" style="margin-top:18px">Email memerlukan SMTP aktif. WhatsApp memerlukan token, phone number ID, dan template pesan yang sudah disetujui Meta.</p>
+    <p class="auth-note" style="margin-top:18px">Email hanya digunakan untuk reset password. Notifikasi status izin dikirim melalui WhatsApp; kanal ini memerlukan token, phone number ID, dan template yang sudah disetujui Meta.</p>
 </section>
 @endsection

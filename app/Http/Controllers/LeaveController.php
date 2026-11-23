@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\LeaveRequest;
 use App\Models\LeaveStatusHistory;
 use App\Models\NotificationLog;
-use App\Mail\LeaveStatusMail;
 use App\Services\LeaveReportPdf;
 use App\Services\WhatsAppCloudApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
@@ -156,14 +154,6 @@ class LeaveController extends Controller
                     'status' => $student->phone ? 'menunggu' : 'gagal',
                     'response' => $student->phone ? 'Menunggu pengiriman.' : 'Nomor WhatsApp wali belum tersedia.',
                 ]),
-                NotificationLog::create([
-                    'leave_request_id' => $leaveRequest->id,
-                    'channel' => 'email',
-                    'recipient' => $student->email,
-                    'message' => $message,
-                    'status' => 'menunggu',
-                    'response' => 'Menunggu pengiriman.',
-                ]),
             ]);
         });
 
@@ -275,12 +265,7 @@ class LeaveController extends Controller
 
         try {
             if ($notificationLog->channel === 'email') {
-                if (config('mail.default') === 'log') {
-                    $result = ['sent' => false, 'detail' => 'MAIL_MAILER masih log. Atur SMTP agar email benar-benar terkirim.'];
-                } else {
-                    Mail::to($notificationLog->recipient)->send(new LeaveStatusMail($notificationLog->request));
-                    $result = ['sent' => true, 'detail' => 'Email diterima mail transport.'];
-                }
+                $result = ['sent' => false, 'detail' => 'Email hanya digunakan untuk reset password. Notifikasi status dikirim melalui WhatsApp.'];
             } else {
                 $result = app(WhatsAppCloudApi::class)->sendTemplate($notificationLog->recipient, $notificationLog->message);
             }

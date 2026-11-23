@@ -1,6 +1,6 @@
 # Mengaktifkan Integrasi Email dan WhatsApp
 
-Aplikasi sudah terhubung ke dua kanal. Saat guru menyetujui atau menolak pengajuan, aplikasi mencoba mengirim email ke alamat siswa dan template WhatsApp ke nomor wali pada profil siswa. Hasil tersimpan di `notification_logs` dan dapat dikirim ulang dari menu **Notifikasi**. Kredensial penyedia harus diisi pada `.env` server; tanpa kredensial tersebut, pesan sungguhan tidak dapat dikirim.
+Aplikasi memakai Gmail untuk mengirim tautan reset password. Notifikasi saat guru menyetujui atau menolak izin dikirim melalui template WhatsApp ke nomor wali pada profil siswa. Hasil pengiriman WhatsApp tersimpan di `notification_logs` dan dapat dikirim ulang dari menu **Notifikasi**.
 
 ## Email SMTP
 
@@ -17,7 +17,7 @@ MAIL_FROM_ADDRESS=ALAMAT_EMAIL
 MAIL_FROM_NAME="SMA Negeri 1 Batu Ampar"
 ```
 
-Gunakan `smtp.gmail.com`, port `587`, dan `MAIL_SCHEME=smtp`. Isi `MAIL_USERNAME` serta `MAIL_FROM_ADDRESS` dengan alamat Gmail pengirim yang sama. Buat App Password melalui pengaturan keamanan Akun Google dan isi hanya di `.env` sebagai `MAIL_PASSWORD`; jangan gunakan password login biasa. Setelah mengisi semua kredensial, ubah `MAIL_MAILER=log` menjadi `MAIL_MAILER=smtp`, lalu jalankan `php artisan config:clear`. Email status izin akan dikirim kepada siswa setelah guru menyetujui atau menolak; mailer ini juga dipakai untuk reset password.
+Gunakan `smtp.gmail.com`, port `587`, dan `MAIL_SCHEME=smtp`. Isi `MAIL_USERNAME` serta `MAIL_FROM_ADDRESS` dengan alamat Gmail pengirim yang sama. Buat App Password melalui pengaturan keamanan Akun Google dan isi hanya di `.env` sebagai `MAIL_PASSWORD`; jangan gunakan password login biasa. Setelah mengisi semua kredensial, ubah `MAIL_MAILER=log` menjadi `MAIL_MAILER=smtp`, lalu jalankan `php artisan config:clear`. Gmail hanya dipakai untuk email reset password.
 
 ## WhatsApp Cloud API
 
